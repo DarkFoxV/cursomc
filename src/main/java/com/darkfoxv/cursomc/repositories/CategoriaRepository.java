@@ -1,4 +1,4 @@
-package com.darkfoxv.cursomc.repository;
+package com.darkfoxv.cursomc.repositories;
 
 import com.darkfoxv.cursomc.domain.Categoria;
 import org.springframework.data.jpa.repository.JpaRepository;
