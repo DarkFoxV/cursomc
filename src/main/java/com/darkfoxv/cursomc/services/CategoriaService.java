@@ -19,7 +19,7 @@ public class CategoriaService {
     }
 
     public Categoria findById(Long id) {
-        return categoriaRepository.findById(id).orElseThrow(()-> new ObjectNotFoundException("Cannot find " + id));
+        return categoriaRepository.findById(id).orElseThrow(()-> new ObjectNotFoundException("Cannot find category" + id));
     }
 
     public Categoria insert(Categoria categoria) {

@@ -1,6 +1,5 @@
 package com.darkfoxv.cursomc.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +8,6 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @AllArgsConstructor
@@ -18,8 +15,8 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@Table(name = "produto")
-public class Produto implements Serializable {
+@Table(name = "cidade")
+public class Cidade implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -30,24 +27,20 @@ public class Produto implements Serializable {
 
     private String nome;
 
-    private Double preco;
-
-    @JsonBackReference
-    @ManyToMany
-    @JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
-    private final List<Categoria> categorias = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "estado_id")
+    private Estado estado;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Produto produto = (Produto) o;
-        return Objects.equals(id, produto.id);
+        Cidade cidade = (Cidade) o;
+        return Objects.equals(id, cidade.id);
     }
 
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
     }
-
 }
