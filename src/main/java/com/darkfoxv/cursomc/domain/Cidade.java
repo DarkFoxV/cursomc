@@ -1,5 +1,6 @@
 package com.darkfoxv.cursomc.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,6 +30,7 @@ public class Cidade implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "estado_id")
+    @JsonManagedReference
     private Estado estado;
 
     @Override
