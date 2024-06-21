@@ -1,20 +1,14 @@
 package com.darkfoxv.cursomc.config;
 
-import com.darkfoxv.cursomc.domain.Categoria;
-import com.darkfoxv.cursomc.domain.Cidade;
-import com.darkfoxv.cursomc.domain.Estado;
-import com.darkfoxv.cursomc.domain.Produto;
-import com.darkfoxv.cursomc.repositories.CategoriaRepository;
+import com.darkfoxv.cursomc.domain.*;
+import com.darkfoxv.cursomc.domain.enums.TipoCliente;
+import com.darkfoxv.cursomc.repositories.*;
 
-import com.darkfoxv.cursomc.repositories.CidadeRepository;
-import com.darkfoxv.cursomc.repositories.EstadoRepository;
-import com.darkfoxv.cursomc.repositories.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 public class instantiation implements CommandLineRunner {
@@ -30,6 +24,12 @@ public class instantiation implements CommandLineRunner {
 
     @Autowired
     private EstadoRepository estadoRepository;
+
+    @Autowired
+    private EnderecoRepository enderecoRepository;
+
+    @Autowired
+    private ClienteRepository clienteRepository;
 
 
     @Override
@@ -51,14 +51,22 @@ public class instantiation implements CommandLineRunner {
         categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
         produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
 
-        Estado e1 = new Estado(null, "São Paulo");
-        Estado e2 = new Estado(null, "Minas Gerais");
-        estadoRepository.saveAll(Arrays.asList(e1, e2));
+        Estado est1 = new Estado(null, "São Paulo");
+        Estado est2 = new Estado(null, "Minas Gerais");
+        estadoRepository.saveAll(Arrays.asList(est1, est2));
 
-        Cidade c1 = new Cidade(null, "São Paulo", e1);
-        Cidade c2 = new Cidade(null, "Uberlândia", e2);
-        Cidade c3 = new Cidade(null, "Campinas", e2);
+        Cidade c1 = new Cidade(null, "São Paulo", est1);
+        Cidade c2 = new Cidade(null, "Uberlândia", est2);
+        Cidade c3 = new Cidade(null, "Campinas", est2);
         cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
+
+        Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "362379967823", TipoCliente.PESSOAFISICA);
+        cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
+        Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", c1, cli1);
+        Endereco e2 = new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "238690", c1, cli1);
+        cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+        clienteRepository.save(cli1);
+        enderecoRepository.saveAll(Arrays.asList(e1, e2));
 
     }
 }
