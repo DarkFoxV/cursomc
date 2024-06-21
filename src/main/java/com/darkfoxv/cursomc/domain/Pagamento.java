@@ -1,10 +1,9 @@
 package com.darkfoxv.cursomc.domain;
 
+import com.darkfoxv.cursomc.domain.enums.EstadoPagamento;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -15,28 +14,28 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@Table(name = "cidade")
-public class Cidade implements Serializable {
+@Inheritance(strategy = InheritanceType.JOINED)
+public abstract class Pagamento implements Serializable{
 
     @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private EstadoPagamento estadoPagamento;
 
-    private String nome;
-
-    @ManyToOne
-    @JoinColumn(name = "estado_id")
-    private Estado estado;
+    @JsonIgnore
+    @OneToOne
+    @JoinColumn(name="pedido_id")
+    @MapsId
+    private  Pedido pedido;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Cidade cidade = (Cidade) o;
-        return Objects.equals(id, cidade.id);
+        Pagamento pagamento = (Pagamento) o;
+        return Objects.equals(id, pagamento.id);
     }
 
     @Override

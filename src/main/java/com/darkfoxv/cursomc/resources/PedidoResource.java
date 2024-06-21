@@ -1,7 +1,7 @@
 package com.darkfoxv.cursomc.resources;
 
-import com.darkfoxv.cursomc.domain.Cidade;
-import com.darkfoxv.cursomc.services.CidadeService;
+import com.darkfoxv.cursomc.domain.Pedido;
+import com.darkfoxv.cursomc.services.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,21 +12,21 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/cities")
-public class CidadeResource {
+@RequestMapping(value = "/orders")
+public class PedidoResource {
 
     @Autowired
-    private CidadeService cidadeService;
+    private PedidoService pedidoService;
 
     @GetMapping
-    public ResponseEntity<List<Cidade>> listar() {
-        List<Cidade> list = cidadeService.findAll();
+    public ResponseEntity<List<Pedido>> listar() {
+        List<Pedido> list = pedidoService.findAll();
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Cidade> buscar(@PathVariable Long id) {
-        Cidade obj = cidadeService.findById(id);
+    public ResponseEntity<Pedido> buscar(@PathVariable Long id) {
+        Pedido obj = pedidoService.findById(id);
         return ResponseEntity.ok().body(obj);
     }
 }

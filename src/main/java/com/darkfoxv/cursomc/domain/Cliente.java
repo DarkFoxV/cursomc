@@ -1,7 +1,7 @@
 package com.darkfoxv.cursomc.domain;
 
 import com.darkfoxv.cursomc.domain.enums.TipoCliente;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,12 +29,14 @@ public class Cliente implements Serializable {
     private Integer tipoCliente;
 
     @OneToMany(mappedBy = "cliente")
-    @JsonManagedReference
     private final List<Endereco> enderecos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cliente")
+    @JsonIgnore
+    private final List<Pedido> pedidos = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "TELEFONE")
-    @Column(name = "TELEFONE")
     private final Set<String> telefones = new HashSet<>();
 
     public Cliente(Long id, String nome, String email, String cpfOuCnpj, TipoCliente tipoCliente) {
