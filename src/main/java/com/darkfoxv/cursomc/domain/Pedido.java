@@ -8,8 +8,7 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 @NoArgsConstructor
 @Getter
@@ -38,6 +37,9 @@ public class Pedido implements Serializable {
     @ManyToOne
     @JoinColumn(name = "endereco_de_entrega_id")
     private Endereco enderecoDeEntrega;
+
+    @OneToMany(mappedBy="id.pedido")
+    private final Set<ItemPedido> itens = new HashSet<>();
 
     public Pedido(Long id, Date date, Cliente cliente, Endereco enderecoDeEntrega) {
         this.id = id;

@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 public class instantiation implements CommandLineRunner {
@@ -40,6 +41,8 @@ public class instantiation implements CommandLineRunner {
     @Autowired
     private PagamentoRepository pagamentoRepository;
 
+    @Autowired
+    private ItemPedidoRepository itemPedidoRepository;
 
     @Override
     public void run(String... args) throws ParseException {
@@ -87,6 +90,19 @@ public class instantiation implements CommandLineRunner {
         ped2.setPagamento(pagto2);
         pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
         pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+
+        ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+        ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+        ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+
+        ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+        ped2.getItens().add(ip3);
+
+        p1.getItens().add(ip1);
+        p2.getItens().add(ip3);
+        p3.getItens().add(ip2);
+
+        itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 
     }
 }
